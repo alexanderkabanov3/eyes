@@ -1,0 +1,311 @@
+<section class="eyes">
+  <div class="eyes__top">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1000 400"
+      width="1000"
+      height="400"
+      class="eyes__block"
+      #svg
+      (mousemove)="mouseEnter()"
+      (mouseup)="mouseUp()"
+      (click)="mouseUp()"
+    >
+      <image
+        x="0"
+        y="0"
+        width="1000"
+        height="400"
+        [attr.xlink:href]="imagePath$ | async"
+      />
+      <!--  left eye-->
+      <line
+        [attr.x1]="coordinates.OSCenterX - 100"
+        [attr.y1]="coordinates.OSCenterY"
+        [attr.x2]="coordinates.OSCenterX + 100"
+        [attr.y2]="coordinates.OSCenterY"
+        class="eyes__line eyes__line--axes"
+      />
+      <line
+        [attr.x1]="coordinates.OSCenterX"
+        [attr.y1]="coordinates.OSCenterY - 100"
+        [attr.x2]="coordinates.OSCenterX"
+        [attr.y2]="coordinates.OSCenterY + 100"
+        class="eyes__line eyes__line--axes"
+      />
+
+      <line
+        [attr.x1]="coordinates.OSTopX - (coordinates.OSSize * 14) / 2"
+        [attr.y1]="coordinates.OSTopY"
+        [attr.x2]="coordinates.OSTopX + (coordinates.OSSize * 14) / 2"
+        [attr.y2]="coordinates.OSTopY"
+        class="eyes__line"
+      />
+      <line
+        [attr.x1]="coordinates.OSBottomX - (coordinates.OSSize * 14) / 2"
+        [attr.y1]="coordinates.OSBottomY"
+        [attr.x2]="coordinates.OSBottomX + (coordinates.OSSize * 14) / 2"
+        [attr.y2]="coordinates.OSBottomY"
+        class="eyes__line"
+      />
+      <line
+        [attr.x1]="coordinates.OSCenterX - (coordinates.OSSize * 14) / 2"
+        [attr.y1]="coordinates.OSCenterY"
+        [attr.x2]="coordinates.OSCenterX + (coordinates.OSSize * 14) / 2"
+        [attr.y2]="coordinates.OSCenterY"
+        class="eyes__line"
+      />
+
+      <text
+        [attr.x]="coordinates.OSCenterX - 80"
+        [attr.y]="coordinates.OSCenterY - 10"
+        class="eyes__text"
+      >
+        {{ coordinates.OSSize.toFixed(1) }} mm
+      </text>
+
+      <path
+        [attr.d]="leftCenterArrow"
+        class="eyes__centerArrow"
+        style="transform-origin: {{ coordinates.OSCenterX }}px {{
+          coordinates.OSCenterY
+        }}px 0"
+      />
+
+      <circle
+        [attr.cx]="coordinates.OSCenterX"
+        [attr.cy]="coordinates.OSCenterY"
+        [attr.r]="(coordinates.OSSize * 14) / 2"
+        class="eyes__circle"
+        (mousedown)="resizeCircle('OSSize', 'OSCenterX')"
+      />
+      <circle
+        [attr.cx]="coordinates.OSTopX"
+        [attr.cy]="coordinates.OSTopY"
+        r="3"
+        class="eyes__dot"
+        (mousedown)="moveVertexPoint('OSTopY')"
+      />
+      <circle
+        [attr.cx]="coordinates.OSBottomX"
+        [attr.cy]="coordinates.OSBottomY"
+        r="3"
+        class="eyes__dot"
+        (mousedown)="moveVertexPoint('OSBottomY')"
+      />
+      <circle
+        [attr.cx]="coordinates.OSCenterX"
+        [attr.cy]="coordinates.OSCenterY"
+        r="3"
+        class="eyes__dot"
+        (mousedown)="
+          moveCenterPoint(
+            'OSTopX',
+            'OSBottomX',
+            'OSCenterX',
+
+            'OSCenterY'
+          )
+        "
+      />
+
+      <path [attr.d]="leftTopArrow" class="eyes__arrow" />
+      <path [attr.d]="leftBottomArrow" class="eyes__arrow" />
+
+      <text
+        [attr.x]="coordinates.OSCenterX + 30"
+        [attr.y]="
+          coordinates.OSTopY + (coordinates.OSCenterY - coordinates.OSTopY) / 2
+        "
+        class="eyes__text eyes__text--distance"
+      >
+        {{ ((coordinates.OSCenterY - coordinates.OSTopY) / 14).toFixed(1) }} mm
+      </text>
+      <text
+        [attr.x]="coordinates.OSCenterX + 30"
+        [attr.y]="
+          coordinates.OSCenterY +
+          (coordinates.OSBottomY - coordinates.OSCenterY) / 2
+        "
+        class="eyes__text eyes__text--distance"
+      >
+        {{ ((coordinates.OSBottomY - coordinates.OSCenterY) / 14).toFixed(1) }}
+        mm
+      </text>
+
+      <!--    right eye-->
+
+      <line
+        [attr.x1]="coordinates.ODCenterX - 100"
+        [attr.y1]="coordinates.ODCenterY"
+        [attr.x2]="coordinates.ODCenterX + 100"
+        [attr.y2]="coordinates.ODCenterY"
+        class="eyes__line eyes__line--axes"
+      />
+      <line
+        [attr.x1]="coordinates.ODCenterX"
+        [attr.y1]="coordinates.ODCenterY - 100"
+        [attr.x2]="coordinates.ODCenterX"
+        [attr.y2]="coordinates.ODCenterY + 100"
+        class="eyes__line eyes__line--axes"
+      />
+
+      <line
+        [attr.x1]="coordinates.ODTopX - (coordinates.ODSize * 14) / 2"
+        [attr.y1]="coordinates.ODTopY"
+        [attr.x2]="coordinates.ODTopX + (coordinates.ODSize * 14) / 2"
+        [attr.y2]="coordinates.ODTopY"
+        class="eyes__line"
+      />
+      <line
+        [attr.x1]="coordinates.ODBottomX - (coordinates.ODSize * 14) / 2"
+        [attr.y1]="coordinates.ODBottomY"
+        [attr.x2]="coordinates.ODBottomX + (coordinates.ODSize * 14) / 2"
+        [attr.y2]="coordinates.ODBottomY"
+        class="eyes__line"
+      />
+      <line
+        [attr.x1]="coordinates.ODCenterX - (coordinates.ODSize * 14) / 2"
+        [attr.y1]="coordinates.ODCenterY"
+        [attr.x2]="coordinates.ODCenterX + (coordinates.ODSize * 14) / 2"
+        [attr.y2]="coordinates.ODCenterY"
+        class="eyes__line"
+      />
+
+      <text
+        [attr.x]="coordinates.ODCenterX - 80"
+        [attr.y]="coordinates.ODCenterY - 10"
+        class="eyes__text"
+      >
+        {{ coordinates.ODSize.toFixed(1) }} mm
+      </text>
+
+      <path
+        [attr.d]="rightCenterArrow"
+        class="eyes__centerArrow"
+        style="transform-origin: {{ coordinates.ODCenterX }}px {{
+          coordinates.ODCenterY
+        }}px 0"
+      />
+
+      <circle
+        [attr.cx]="coordinates.ODCenterX"
+        [attr.cy]="coordinates.ODCenterY"
+        [attr.r]="(coordinates.ODSize * 14) / 2"
+        class="eyes__circle"
+        (mousedown)="resizeCircle('ODSize', 'ODCenterX')"
+      />
+      <circle
+        [attr.cx]="coordinates.ODTopX"
+        [attr.cy]="coordinates.ODTopY"
+        r="3"
+        class="eyes__dot"
+        (mousedown)="moveVertexPoint('ODTopY')"
+      />
+      <circle
+        [attr.cx]="coordinates.ODBottomX"
+        [attr.cy]="coordinates.ODBottomY"
+        r="3"
+        class="eyes__dot"
+        (mousedown)="moveVertexPoint('ODBottomY')"
+      />
+      <circle
+        [attr.cx]="coordinates.ODCenterX"
+        [attr.cy]="coordinates.ODCenterY"
+        r="3"
+        class="eyes__dot"
+        (mousedown)="
+          moveCenterPoint('ODTopX', 'ODBottomX', 'ODCenterX', 'ODCenterY')
+        "
+      />
+
+      <path [attr.d]="rightTopArrow" class="eyes__arrow" />
+      <path [attr.d]="rightBottomArrow" class="eyes__arrow" />
+
+      <text
+        [attr.x]="coordinates.ODCenterX + 30"
+        [attr.y]="
+          coordinates.ODTopY + (coordinates.ODCenterY - coordinates.ODTopY) / 2
+        "
+        class="eyes__text eyes__text--distance"
+      >
+        {{ ((coordinates.ODCenterY - coordinates.ODTopY) / 14).toFixed(1) }} mm
+      </text>
+      <text
+        [attr.x]="coordinates.ODCenterX + 30"
+        [attr.y]="
+          coordinates.ODCenterY +
+          (coordinates.ODBottomY - coordinates.ODCenterY) / 2
+        "
+        class="eyes__text eyes__text--distance"
+      >
+        {{ ((coordinates.ODBottomY - coordinates.ODCenterY) / 14).toFixed(1) }}
+        mm
+      </text>
+    </svg>
+    <div>
+      <div class="eyes__coordinates">
+        <div class="eyes__coordBlock">
+          <p class="eyes__desc">left eye</p>
+          <div class="eyes__row">
+            <p class="eyes__name">upper eyelid</p>
+            <p>X: {{ coordinates.OSTopX }}</p>
+            <p>Y: {{ coordinates.OSTopY }}</p>
+          </div>
+          <div class="eyes__row">
+            <p class="eyes__name">pupil centre</p>
+            <p>X: {{ coordinates.OSCenterX }}</p>
+            <p>Y: {{ coordinates.OSCenterY }}</p>
+          </div>
+          <div class="eyes__row">
+            <p class="eyes__name">lower eyelid</p>
+            <p>X: {{ coordinates.OSBottomX }}</p>
+            <p>Y: {{ coordinates.OSBottomY }}</p>
+          </div>
+          <div class="eyes__row">
+            <p class="eyes__name">diameter</p>
+            <p>{{ coordinates.OSSize.toFixed(1) }}</p>
+          </div>
+        </div>
+        <div class="eyes__coordBlock">
+          <p class="eyes__desc">right eye</p>
+          <div class="eyes__row">
+            <p class="eyes__name">upper eyelid</p>
+            <p>X: {{ coordinates.ODTopX }}</p>
+            <p>Y: {{ coordinates.ODTopY }}</p>
+          </div>
+          <div class="eyes__row">
+            <p class="eyes__name">pupil centre</p>
+            <p>X: {{ coordinates.ODCenterX }}</p>
+            <p>Y: {{ coordinates.ODCenterY }}</p>
+          </div>
+          <div class="eyes__row">
+            <p class="eyes__name">lower eyelid</p>
+            <p>X: {{ coordinates.ODBottomX }}</p>
+            <p>Y: {{ coordinates.ODBottomY }}</p>
+          </div>
+          <div class="eyes__row">
+            <p class="eyes__name">diameter</p>
+            <p>{{ coordinates.ODSize.toFixed(1) }}</p>
+          </div>
+        </div>
+      </div>
+      <button
+        (click)="dispatchData()"
+        class="eyes__btn"
+        mat-raised-button
+        color="warn"
+      >
+        Accept changes
+      </button>
+    </div>
+  </div>
+  <div class="eyes__pagination" (click)="changePage($event)" #pagination>
+    <span class="eyes__page">1</span>
+    <span class="eyes__page">2</span>
+    <span class="eyes__page">3</span>
+    <span class="eyes__page">4</span>
+    <span class="eyes__page">5</span>
+    <span class="eyes__page">6</span>
+  </div>
+</section>
