@@ -6,10 +6,9 @@
       width="1000"
       height="400"
       class="eyes__block"
-      #svg
-      (mousemove)="mouseEnter()"
+      #eyesImage
+      (mousemove)="mouseMove()"
       (mouseup)="mouseUp()"
-      (click)="mouseUp()"
     >
       <image
         x="0"
@@ -308,4 +307,6 @@
     <span class="eyes__page">5</span>
     <span class="eyes__page">6</span>
   </div>
+  <p>to change the coordinates drag the central points</p>
+  <p>to resize the circle drag over the edge</p>
 </section>

@@ -9,7 +9,7 @@ import { MatListModule } from '@angular/material/list';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { EysComponentComponent } from './eys-component/eys-component.component';
+import { EysComponentComponent } from './eyes-component/eys-component.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({

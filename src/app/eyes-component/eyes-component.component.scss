@@ -47,7 +47,9 @@
   &__circle {
     fill: transparent;
     stroke: red;
+    stroke-width: 2px;
     cursor: pointer;
+    pointer-events: stroke;
   }
 
   &__text {

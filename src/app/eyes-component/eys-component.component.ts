@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -20,9 +19,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./eyes-component.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EysComponentComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EysComponentComponent implements OnInit, AfterViewInit {
   @ViewChild('pagination') public pagination: ElementRef;
-  @ViewChild('svg') private svgEl: ElementRef;
+  @ViewChild('eyesImage') private eyesImage: ElementRef;
 
   public coordinates: EyesCoordinates;
   public imageNum: number;
@@ -35,8 +34,6 @@ export class EysComponentComponent implements OnInit, AfterViewInit, OnDestroy {
   public rightCenterArrow: string;
   public rightTopArrow: string;
   public rightBottomArrow: string;
-
-  private incomingDataSubscription: Subscription;
 
   private mouseMove$: Observable<MouseEvent>;
   private mouseEventSubscription: Subscription;
@@ -67,21 +64,24 @@ export class EysComponentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.mouseMove$ = fromEvent(this.svgEl.nativeElement, 'mousemove');
+    this.mouseMove$ = fromEvent(this.eyesImage.nativeElement, 'mousemove');
 
     // pagination view
 
     this.paginationView();
   }
 
-  mouseEnter(): void {}
+  mouseMove(): void {}
 
   moveVertexPoint(vertex: string): void {
-    this.mouseEventSubscription = this.mouseMove$.subscribe((event) => {
-      this.coordinates[vertex] = event.offsetY;
+    this.mouseEventSubscription = this.mouseMove$.subscribe(
+      (event: MouseEvent) => {
+        event.preventDefault();
+        this.coordinates[vertex] = event.offsetY;
 
-      this.drawAllArrows();
-    });
+        this.drawAllArrows();
+      }
+    );
   }
 
   moveCenterPoint(
@@ -90,24 +90,30 @@ export class EysComponentComponent implements OnInit, AfterViewInit, OnDestroy {
     centerX: string,
     centerY: string
   ): void {
-    this.mouseEventSubscription = this.mouseMove$.subscribe((event) => {
-      this.coordinates[centerX] = event.offsetX;
-      this.coordinates[vertexTopX] = event.offsetX;
-      this.coordinates[vertexBottomX] = event.offsetX;
+    this.mouseEventSubscription = this.mouseMove$.subscribe(
+      (event: MouseEvent) => {
+        event.preventDefault();
+        this.coordinates[centerX] = event.offsetX;
+        this.coordinates[vertexTopX] = event.offsetX;
+        this.coordinates[vertexBottomX] = event.offsetX;
 
-      this.coordinates[centerY] = event.offsetY;
+        this.coordinates[centerY] = event.offsetY;
 
-      this.drawAllArrows();
-    });
+        this.drawAllArrows();
+      }
+    );
   }
 
-  resizeCircle(size: string, center: string): void {
-    this.mouseEventSubscription = this.mouseMove$.subscribe((event) => {
-      this.coordinates[size] =
-        (Math.abs(+this.coordinates[center] - event.offsetX) / 14) * 2;
+  resizeCircle(size: string, centerX: string): void {
+    this.mouseEventSubscription = this.mouseMove$.subscribe(
+      (event: MouseEvent) => {
+        event.preventDefault();
+        this.coordinates[size] =
+          (Math.abs(+this.coordinates[centerX] - event.offsetX) / 14) * 2;
 
-      this.drawAllArrows();
-    });
+        this.drawAllArrows();
+      }
+    );
   }
 
   mouseUp(): void {
@@ -231,9 +237,5 @@ export class EysComponentComponent implements OnInit, AfterViewInit, OnDestroy {
   dispatchData(): void {
     this.incomingData.dispatchData(this.coordinates, this.imageNum);
     this.snackBar.open('Saved', '', { duration: 500 });
-  }
-
-  ngOnDestroy(): void {
-    this.incomingDataSubscription.unsubscribe();
   }
 }
