@@ -41,14 +41,14 @@
 
   &__dot {
     fill: #2eff2e;
-    cursor: pointer;
+    cursor: grab;
   }
 
   &__circle {
     fill: transparent;
     stroke: red;
     stroke-width: 2px;
-    cursor: pointer;
+    cursor: grab;
     pointer-events: stroke;
   }
 
