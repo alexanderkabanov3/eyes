@@ -66,9 +66,10 @@
       <path
         [attr.d]="leftCenterArrow"
         class="eyes__centerArrow"
-        style="transform-origin: {{ coordinates.OSCenterX }}px {{
-          coordinates.OSCenterY
-        }}px 0"
+        [ngStyle]="{
+          'transform-origin':
+            '' + coordinates.OSCenterX + 'px ' + coordinates.OSCenterY + 'px 0'
+        }"
       />
 
       <circle
@@ -182,9 +183,10 @@
       <path
         [attr.d]="rightCenterArrow"
         class="eyes__centerArrow"
-        style="transform-origin: {{ coordinates.ODCenterX }}px {{
-          coordinates.ODCenterY
-        }}px 0"
+        [ngStyle]="{
+          'transform-origin':
+            '' + coordinates.ODCenterX + 'px ' + coordinates.ODCenterY + 'px 0'
+        }"
       />
 
       <circle
